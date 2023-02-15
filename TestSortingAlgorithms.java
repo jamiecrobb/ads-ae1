@@ -25,11 +25,16 @@ public class TestSortingAlgorithms
     public static void main(String[] args)
     {
         Sort sort = new Sort();
-        int[] unsortedList = sort.readArray("./data/int10.txt");
+        int[] unsortedList = sort.readArray("./datasets/intBig.txt");
         // InsertionSort insertion = new InsertionSort(unsortedList);
-        SelectionSort selection = new SelectionSort(unsortedList);
+        // SelectionSort selection = new SelectionSort(unsortedList);
+        HeapSort heap = new HeapSort(unsortedList);
 
         boolean success = testAscending(unsortedList);
+        for (int i = unsortedList.length - 1; i > unsortedList.length - 10; i--)
+        {
+            System.out.println(unsortedList[i]);
+        }
         System.out.println(success);
     }
 }

@@ -1,9 +1,7 @@
-import java.util.concurrent.DelayQueue;
-
 public class QuickSort  
 {
     // Utility method to swap two elements in an array
-    static void swap(int[] A, int p, int q)
+    public static void swap(int[] A, int p, int q)
     {
         int temporary = A[p];
         A[p] = A[q];
@@ -11,7 +9,7 @@ public class QuickSort
     }
 
     // Part 1, a
-    static int Partition(int[] A, int p, int r)
+    public static int Partition(int[] A, int p, int r)
     {
         int x = A[r];
         int i = p - 1;
@@ -27,7 +25,7 @@ public class QuickSort
         return i + 1;
     }
 
-    static void Quicksort(int[] A, int p, int r)
+    public static void Quicksort(int[] A, int p, int r)
     {
         if (p < r)
         {
@@ -53,11 +51,11 @@ public class QuickSort
         }
     }
 
-    static void QuicksortInsertion(int[] A, int p, int r, int k)
+    public static void QuicksortInsertion(int[] A, int p, int r, int k)
     {
         if ((r - p) < k)
         {
-            ;
+            return;
         }
         else if (p < r)
         {
@@ -65,11 +63,16 @@ public class QuickSort
             QuicksortInsertion(A, p, q-1, k);
             QuicksortInsertion(A, q+1, r, k);
         }
+    }
+
+    public static void callInsertion(int[] A)
+    {
+        QuicksortInsertion(A, 0, A.length - 1, 10);
         InsertionSort(A);
     }
 
     // Part 1c
-    static void sortElements(int[] A, int left, int right)
+    public static void sortElements(int[] A, int left, int right)
     {
         // Sort the left, right and middle elements
         int middle = (right + left) / 2;
@@ -89,21 +92,51 @@ public class QuickSort
         swap(A, middle, right - 1);
     }
 
-    static void QuicksortMedianOfThree(int[] A, int p, int r)
+    public static void QuicksortMedianOfThree(int[] A, int p, int r)
     {
         if (p < r)
         {
             sortElements(A, p, r);
             int q = Partition(A, p, r);
-            Quicksort(A, p, q-1);
-            Quicksort(A, q+1, r);
+            QuicksortMedianOfThree(A, p, q-1);
+            QuicksortMedianOfThree(A, q+1, r);
         }
     }
 
     // Part 1d
-    static void ThreeWayQuicksort()
+    public static int[] ThreeWayPartition(int[] A, int p, int r)
     {
+        int start = p;
+        int end = r;
+        int x = A[p];
+        for(int i = start + 1 ; i <= end; i++)
+        {
+            if(A[i] < x)
+            {
+                swap(A, i, start);
+                start++;
+            }
+            else if(A[i] > x)
+            {
+                swap(A, i, end);
+                end--; 
+                i--;
+            }
+        }
+        int[] results = {start, end};
+        return results;
+    }
 
+    public static void ThreeWayQuicksort(int[] A, int p, int r)
+    {
+        if (p < r)
+        {
+            int[] values = ThreeWayPartition(A, p, r);
+            int start = values[0];
+            int end = values[1];
+            ThreeWayQuicksort(A, p, start-1);
+            ThreeWayQuicksort(A, end+1, r);
+        }
     }
 
 
@@ -141,21 +174,21 @@ public class QuickSort
         // System.out.println();
         // System.out.println("----------------------------------------------------------------");
 
-        // // Part 1c
-        // System.out.println("Part 1c:");
-        // int[] arr3 = new int[]{3,2,5,1,4,8,6,-1};
-        // for (int i : arr3)
-        // {
-        //     System.out.print(i + " ");
-        // }
-        // System.out.println();
-        // QuicksortMedianOfThree(arr3, 0, arr3.length - 1);
-        // for (int i : arr3)
-        // {
-        //     System.out.print(i + " ");
-        // }
-        // System.out.println();
-        // System.out.println("----------------------------------------------------------------");
+        // Part 1c
+        System.out.println("Part 1c:");
+        int[] arr3 = new int[]{3,2,5,1,4,8,6,-1};
+        for (int i : arr3)
+        {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        QuicksortMedianOfThree(arr3, 0, arr3.length - 1);
+        for (int i : arr3)
+        {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        System.out.println("----------------------------------------------------------------");
 
         // Part 1d
         System.out.println("Part 1d:");
