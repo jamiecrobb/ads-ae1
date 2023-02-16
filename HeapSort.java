@@ -37,11 +37,11 @@ public class HeapSort extends Sort
         }
     }
 
-    public static void BuildMaxHeap(int[] A)
+    public static void BuildMaxHeap(int[] A, int length)
     {
-        for (int i = ((A.length / 2) - 1); i >= 0; i--)
+        for (int i = (length - 1); i >= 0; i--)
         {
-            MaxHeapify(A, i, A.length);
+            MaxHeapify(A, i, length);
         }
     }
 
@@ -50,9 +50,10 @@ public class HeapSort extends Sort
         int[] mostViewed = new int[k];
         for (int i = 0; i < k; i++)
         {
-            BuildMaxHeap(listToSort);
+            BuildMaxHeap(listToSort, listToSort.length - i);
             mostViewed[i] = listToSort[0];
-            listToSort[0] = 0;
+            HeapSort.swap(listToSort, 0, listToSort.length-1-i);
+            // listToSort[0] = 0;
         }
         return mostViewed;
     }
@@ -72,8 +73,9 @@ public class HeapSort extends Sort
 
     public static void main(String[] args)
     {
-        int k = 20; // The number of videos to find
+        int k = 50; // The number of videos to find
         int[] unsortedList = Sort.readArray("datasets/int500k.txt");
+
         int[] mostViewed = getKMostViewed(unsortedList, k);
         for (int video : mostViewed)
         {
