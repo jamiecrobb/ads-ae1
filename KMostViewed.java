@@ -1,4 +1,4 @@
-public class HeapSort extends Sort
+public class KMostViewed extends Sort
 {
     public static int Left(int i)
     {
@@ -52,8 +52,7 @@ public class HeapSort extends Sort
         {
             BuildMaxHeap(listToSort, listToSort.length - i);
             mostViewed[i] = listToSort[0];
-            HeapSort.swap(listToSort, 0, listToSort.length-1-i);
-            // listToSort[0] = 0;
+            KMostViewed.swap(listToSort, 0, listToSort.length-1-i);
         }
         return mostViewed;
     }
@@ -73,13 +72,35 @@ public class HeapSort extends Sort
 
     public static void main(String[] args)
     {
-        int k = 50; // The number of videos to find
-        int[] unsortedList = Sort.readArray("datasets/int500k.txt");
+        int k = 20; // The number of videos to find
+        long t1, t2, t3, t4, t5, t6;
 
+        // Test Jamie
+        int[] unsortedList = Sort.readArray("datasets/int500k.txt");
+        t1 = System.nanoTime();
         int[] mostViewed = getKMostViewed(unsortedList, k);
-        for (int video : mostViewed)
-        {
-            System.out.println("Video had " + video + " views.");
-        }
+        t2 = System.nanoTime();
+        System.out.println("Jamie: " + (t2-t1));
+
+
+
+        int[] unsortedListFin = Sort.readArray("datasets/int500k.txt");
+        t3 = System.nanoTime();
+        int[] finMostViewed = KLargestElements.findKLargestElements(unsortedListFin, k);
+        t4 = System.nanoTime();
+        System.out.println("Fin:   " + (t4-t3));
+
+
+        int[] unsortedListJoe = Sort.readArray("datasets/int500k.txt");
+        t5 = System.nanoTime();
+        int[] joeMostViewed = KLargestElements.findKLargestElements(unsortedListJoe, k);
+        t6 = System.nanoTime();
+        System.out.println("Joe:   " + (t6-t5));
+
+
+        // for (int video : mostViewed)
+        // {
+        //     System.out.println("Video had " + video + " views.");
+        // }
     }
 }
