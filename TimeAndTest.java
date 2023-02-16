@@ -1,12 +1,51 @@
-public class TimeAndTest 
+public class TimeAndTest extends Sort
 {
-    static String[] paths = new String[]{"datasets/int1000.txt",
-                                            "datasets/int20k.txt",
-                                            "datasets/int500k.txt",
-                                            "datasets/dutch.txt",
-                                            "datasets/intBig.txt",};
+    public static boolean testAscending(int[] sortedList, String algorithm)
+    {
+        for (int i = 1; i < sortedList.length; i++)
+        {
+            if (sortedList[i] < sortedList[i-1])
+            {
+                return false;
+            }
+        }
+        System.out.print("    " + algorithm + " worked successfully.\n");
+        return true;
+    }
 
-    public static long determineTime(String path, int sortType)
+    public static void testAlgorithms(String path, int sortType)
+    {
+        int[] unsortedList = Sort.readArray(path);
+        switch(sortType)
+        {
+            case 1:
+                QuickSort.Quicksort(unsortedList, 0, unsortedList.length - 1);
+                testAscending(unsortedList, "Quicksort");
+                break;
+            case 2:
+                QuickSort.callInsertion(unsortedList, 10);
+                testAscending(unsortedList, "Insertion Quicksort");
+                break;
+            case 3:
+                QuickSort.QuicksortMedianOfThree(unsortedList, 0, unsortedList.length - 1);
+                testAscending(unsortedList, "Median Quicksort");
+                break;
+            case 4:
+                QuickSort.ThreeWayQuicksort(unsortedList, 0, unsortedList.length - 1);
+                testAscending(unsortedList, "Three Way Quicksort");
+                break;
+            case 5:
+                InsertionSort.Insertionsort(unsortedList);
+                testAscending(unsortedList, "Insertion Sort");
+                break;
+            case 6:
+                MergeSortClass.MergeSort(unsortedList, 0, unsortedList.length - 1);
+                testAscending(unsortedList, "Merge Sort");
+                break;
+        }
+    }
+
+    public static long determineTime(String path, int sortType, int kValue)
     {
         int[] unsortedList = Sort.readArray(path);
         long time1, time2;
@@ -20,9 +59,9 @@ public class TimeAndTest
                 break;
             case 2:
                 time1 = System.nanoTime();
-                QuickSort.callInsertion(unsortedList);
+                QuickSort.callInsertion(unsortedList, kValue);
                 time2 = System.nanoTime();
-                System.out.print("    Insertion Quicksort:");
+                System.out.print("    Insertion Quicksort (k=" + kValue + "):");
                 break;
             case 3:
                 time1 = System.nanoTime();
@@ -61,54 +100,19 @@ public class TimeAndTest
         System.out.println(path);
         for (int i = 1; i <= 6; i++)
         {
-            determineTime(path, i);
+            determineTime(path, i, 10);
         }
         System.out.println();
     }
 
-    public static boolean testAscending(int[] sortedList, String algorithm)
+    public static void timeWithK(String path)
     {
-        for (int i = 1; i < sortedList.length; i++)
+        System.out.println(path);
+        for (int i = 2; i <= 512; i=i*4)
         {
-            if (sortedList[i] < sortedList[i-1])
-            {
-                return false;
-            }
+            determineTime(path, 2, i);
         }
-        System.out.print("    " + algorithm + " worked successfully.\n");
-        return true;
-    }
-
-    public static void testAlgorithms(String path, int sortType)
-    {
-        int[] unsortedList = Sort.readArray(path);
-        switch(sortType)
-        {
-            case 1:
-                QuickSort.Quicksort(unsortedList, 0, unsortedList.length - 1);
-                testAscending(unsortedList, "Quicksort");
-                break;
-            case 2:
-                QuickSort.callInsertion(unsortedList);
-                testAscending(unsortedList, "Insertion Quicksort");
-                break;
-            case 3:
-                QuickSort.QuicksortMedianOfThree(unsortedList, 0, unsortedList.length - 1);
-                testAscending(unsortedList, "Median Quicksort");
-                break;
-            case 4:
-                QuickSort.ThreeWayQuicksort(unsortedList, 0, unsortedList.length - 1);
-                testAscending(unsortedList, "Three Way Quicksort");
-                break;
-            case 5:
-                InsertionSort.Insertionsort(unsortedList);
-                testAscending(unsortedList, "Insertion Sort");
-                break;
-            case 6:
-                MergeSortClass.MergeSort(unsortedList, 0, unsortedList.length - 1);
-                testAscending(unsortedList, "Merge Sort");
-                break;
-        }
+        System.out.println();
     }
 
     public static void main(String[] args)
@@ -120,9 +124,15 @@ public class TimeAndTest
         }
         
         System.out.println("\nRunning sorting algorithms on each dataset:\n");
-        for (String path : paths)
+        for (String path : Sort.paths)
         {
             outputTimeStats(path);
+        }
+
+        System.out.println("\nRunning Insertion Quicksort with varying k, on each dataset:\n");
+        for (String path : Sort.paths)
+        {
+            timeWithK(path);
         }
     }
 }

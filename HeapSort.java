@@ -45,15 +45,39 @@ public class HeapSort extends Sort
         }
     }
 
-    public HeapSort(int[] listToSort)
+    public static int[] getKMostViewed(int[] listToSort, int k)
     {
-        BuildMaxHeap(listToSort);
-        int s = listToSort.length;
-        for (int i = listToSort.length - 1; i >= 1; i--)
+        int[] mostViewed = new int[k];
+        for (int i = 0; i < k; i++)
         {
-            swap(listToSort, 0, i);
-            s = s-1;
-            MaxHeapify(listToSort, 0, s);
+            BuildMaxHeap(listToSort);
+            mostViewed[i] = listToSort[0];
+            listToSort[0] = 0;
+        }
+        return mostViewed;
+    }
+
+    public static boolean testAscending(int[] sortedList, String algorithm)
+    {
+        for (int i = 1; i < sortedList.length; i++)
+        {
+            if (sortedList[i] < sortedList[i-1])
+            {
+                return false;
+            }
+        }
+        System.out.print("    " + algorithm + " worked successfully.\n");
+        return true;
+    }
+
+    public static void main(String[] args)
+    {
+        int k = 20; // The number of videos to find
+        int[] unsortedList = Sort.readArray("datasets/int500k.txt");
+        int[] mostViewed = getKMostViewed(unsortedList, k);
+        for (int video : mostViewed)
+        {
+            System.out.println("Video had " + video + " views.");
         }
     }
 }

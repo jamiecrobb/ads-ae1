@@ -6,6 +6,13 @@ import java.util.List;
 
 class Sort
 {
+    // Make sure to change this if the data files are not in a directory, datasets.
+    public static String[] paths = new String[]{"datasets/int1000.txt",
+                                            "datasets/int20k.txt",
+                                            "datasets/int500k.txt",
+                                            "datasets/dutch.txt",
+                                            "datasets/intBig.txt",};
+
     List<String> inputList;
 
     public Sort()
@@ -16,15 +23,12 @@ class Sort
     // Utility method to swap two elements in an array
     public static void swap(int[] A, int p, int q)
     {
-        // System.out.println("Length: " + A.length);
-        // System.out.println("p: " + p);
-        // System.out.println("q: " + q);
         int temporary = A[p];
         A[p] = A[q];
         A[q] = temporary;
     }
 
-    public int[] copyArray(ArrayList<Integer> data) {
+    public static int[] copyArray(ArrayList<Integer> data) {
         int n = data.size();
         int[] res = new int[n];
         for (int i = 0; i<n; i++)
@@ -34,7 +38,7 @@ class Sort
         return res;
     }
 
-    public int[] readArray(String path)
+    public static int[] readArray(String path)
     {    
         ArrayList<Integer> data = new ArrayList<Integer>();
         try

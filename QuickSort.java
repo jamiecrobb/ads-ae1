@@ -1,4 +1,4 @@
-public class QuickSort  
+public class QuickSort extends Sort
 {
     // Utility method to swap two elements in an array
     public static void swap(int[] A, int p, int q)
@@ -65,9 +65,9 @@ public class QuickSort
         }
     }
 
-    public static void callInsertion(int[] A)
+    public static void callInsertion(int[] A, int k)
     {
-        QuicksortInsertion(A, 0, A.length - 1, 10);
+        QuicksortInsertion(A, 0, A.length - 1, k);
         InsertionSort(A);
     }
 
