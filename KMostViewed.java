@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class KMostViewed extends Sort
 {
     public static int Left(int i)
@@ -70,37 +74,50 @@ public class KMostViewed extends Sort
         return true;
     }
 
+    public static int[] getTopViews(List<Integer> views, int k)
+	{
+		ArrayList<Integer> top = new ArrayList<Integer>();
+		
+		for(int j = 0; j < views.size(); j++)
+		{
+			if(top.size() < k)
+				top.add(views.get(j));
+			else
+			{
+				int smallestValue = Integer.MAX_VALUE;
+				int index = -1;
+				for(int i = 0; i < top.size(); i++)
+				{
+					if(top.get(i) < smallestValue)
+					{
+						smallestValue = top.get(i);
+						index = i;
+					}
+				}
+				if(index != -1 && top.get(index) < views.get(j))
+					top.set(index, views.get(j));
+			}
+		}
+        int[] topnew = new int[top.size()];
+        for (int i = 0; i < topnew.length; i++)
+        {
+            topnew[i] = top.get(i);
+        } 
+
+		QuickSort.QuicksortInsertion(topnew, 0, topnew.length - 1, 20);
+        return topnew;
+    }
+		
+
     public static void main(String[] args)
     {
         int k = 20; // The number of videos to find
-        long t1, t2, t3, t4, t5, t6;
-
-        // Test Jamie
         int[] unsortedList = Sort.readArray("datasets/int500k.txt");
-        t1 = System.nanoTime();
         int[] mostViewed = getKMostViewed(unsortedList, k);
-        t2 = System.nanoTime();
-        System.out.println("Jamie: " + (t2-t1));
 
-
-
-        int[] unsortedListFin = Sort.readArray("datasets/int500k.txt");
-        t3 = System.nanoTime();
-        int[] finMostViewed = KLargestElements.findKLargestElements(unsortedListFin, k);
-        t4 = System.nanoTime();
-        System.out.println("Fin:   " + (t4-t3));
-
-
-        int[] unsortedListJoe = Sort.readArray("datasets/int500k.txt");
-        t5 = System.nanoTime();
-        int[] joeMostViewed = KLargestElements.findKLargestElements(unsortedListJoe, k);
-        t6 = System.nanoTime();
-        System.out.println("Joe:   " + (t6-t5));
-
-
-        // for (int video : mostViewed)
-        // {
-        //     System.out.println("Video had " + video + " views.");
-        // }
+        for (int video : mostViewed)
+        {
+            System.out.println("Video had " + video + " views.");
+        }
     }
 }
