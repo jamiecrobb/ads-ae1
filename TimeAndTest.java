@@ -91,7 +91,7 @@ public class TimeAndTest extends Sort
                 time1 = 0;
                 time2 = 0;
         }
-        System.out.print(" " + (time2 - time1) + " milliseconds\n");
+        System.out.print(" " + (time2 - time1) + " nanoseconds\n");
         return time2 - time1;
     }
 
@@ -108,7 +108,7 @@ public class TimeAndTest extends Sort
     public static void timeWithK(String path)
     {
         System.out.println(path);
-        for (int i = 2; i <= 512; i=i*4)
+        for (int i = 5; i <= 25; i=i+5)
         {
             determineTime(path, 2, i);
         }
